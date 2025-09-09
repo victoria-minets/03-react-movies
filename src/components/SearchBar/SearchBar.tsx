@@ -1,15 +1,11 @@
-import { useState } from 'react';
 import toast from 'react-hot-toast';
-
 import css from './SearchBar.module.css';
 
-export interface Props {
-  onSearch: (searchValue: string) => void;
+export interface SearchBarProps {
+  onSubmit: (searchValue: string) => void;
 }
 
-export default function SearchBar({ onSearch }: Props) {
-  const [query, setQuery] = useState('');
-
+export default function SearchBar({ onSubmit }: SearchBarProps) {
   const handleSubmit = (formData: FormData) => {
     const searchValue = formData.get('query') as string;
 
@@ -17,8 +13,7 @@ export default function SearchBar({ onSearch }: Props) {
       toast.error('Please enter your search query.');
       return;
     }
-    onSearch(searchValue);
-    setQuery('');
+    onSubmit(searchValue);
   };
 
   return (
@@ -40,10 +35,6 @@ export default function SearchBar({ onSearch }: Props) {
             autoComplete="off"
             placeholder="Search movies..."
             autoFocus
-            value={query}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setQuery(e.target.value)
-            }
           />
           <button className={css.button} type="submit">
             Search
